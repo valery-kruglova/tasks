@@ -1,11 +1,5 @@
-import { markupMenu } from './markup-menu';
-markupMenu(window.document);
+import TodosFactory from './modules/TodosFactory'
 
-// import test from './components/test'
-import fabric from './components/fabric'
-$(() => {
-  const TodosFactory = fabric;
-  const todos = TodosFactory.createList();
-  todos.add();
-  // test();
-});
+const todos = TodosFactory.createList(['Make some code'])
+
+console.log(todos.getList())
