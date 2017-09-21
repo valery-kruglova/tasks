@@ -1,50 +1,52 @@
+export const convertToArray = arg => Array.isArray(arg)
+  ? arg.slice()
+  : typeof arg === 'string'
+    ? [arg]
+    : []
+
 const TodosFactory = {
-  createList: function (list) {
-    let items = [];
-    function render() {
-      let html = ''
-      for (let i = 0; i < items.length; i++) {
-        html += `<li>${items[i]}</li>`
-      }
-      root.innerHTML = `<ul>${html}</ul>`
-    }
-    if (Array.isArray(list)) {
-      items = list.slice();
-    } else if (typeof list === 'string') {
-      items.push(list);
-    }
-    return {
-      subscribe: function () {
-        alert(items)
-        render();
-      },
-      add: function (item) {
-        if (Array.isArray(item)) {
-          for (let i = 0; i < item.length; i++) {
-            items.push(item[i]);
-          }
-        } else if (typeof item === 'string') {
-          items.push(item);
-        }
-        render();
-      },
-      getList: function () {
-        render();
-        return items.slice();
-      },
-      remove: function (removeItem) {
-        if (typeof removeItem === 'string') {
-          for (let i = items.length; i >= 0; i--) {
-            if (removeItem === items[i]) {
-              items.splice(i, 1);
-            }
-          }
-        } else if (typeof removeItem === 'number' && removeItem < items.length) {
-          items.splice(removeItem, 1);
-        }
-        render();
+  createList(list) {
+    let items = convertToArray(list)
+    const callbacks = new Map()
+    let runCallbacks = function () {
+      for (const callback of callbacks) {
+        callback[1](this.getList())
       }
     }
+    const result = {
+      subscribe(fn) {
+        if (typeof fn !== 'function') {
+          return null
+        }
+        const key = `__subsciber__${Math.random().toString().substr(2)}`
+        callbacks.set(key, fn)
+        return key
+      },
+      unsubscribe(key) {
+        return callbacks.delete(key)
+      },
+      add(item) {
+        items = [...items, ...convertToArray(item)]
+        runCallbacks()
+      },
+      getList() {
+        return items.slice()
+      },
+      remove(itemToRemove) {
+        const indexes = typeof itemToRemove === 'number'
+          ? [itemToRemove]
+          : typeof itemToRemove === 'string'
+            ? items.reduce((acc, item, index) => {
+              item === itemToRemove && acc.push(index)
+              return acc
+            }, [])
+            : []
+        items = items.filter((item, index) => !~indexes.indexOf(index))
+        runCallbacks()
+      }
+    }
+    runCallbacks = runCallbacks.bind(result)
+    return result
   }
 }
 

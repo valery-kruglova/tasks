@@ -4,7 +4,7 @@ import TodosFactory from './'
 describe('Todo list creation', () => {
   it('should create todos object with empty array', () => {
     const todos = TodosFactory.createList()
-    assert.deepEqual(Object.keys(todos).sort(), ['add', 'remove', 'getList', 'subscribe'].sort())
+    assert.deepEqual(Object.keys(todos).sort(), ['add', 'remove', 'getList', 'subscribe', 'unsubscribe'].sort())
     assert.deepEqual(todos.getList(), [])
   })
 
@@ -61,5 +61,67 @@ describe('Todo list removing item(s)', () => {
     const todos = TodosFactory.createList(['Test todo 1', 'Test todo 2', 'Test todo 3', 'Test todo 2'])
     todos.remove(10)
     assert.deepEqual(todos.getList(), ['Test todo 1', 'Test todo 2', 'Test todo 3', 'Test todo 2'])
+  })
+})
+
+describe('Todo list subscribe functionality', () => {
+  it('should subscribe to any function', () => {
+    const todos = TodosFactory.createList()
+    let tester = 0
+    const iter = (items) => {
+      tester = items.length
+    }
+    todos.subscribe(iter)
+    todos.add(['1', '2', '3', '4'])
+    assert.equal(tester, 4)
+  })
+
+  it('should subscribe to 2 functions', () => {
+    const todos = TodosFactory.createList()
+    let tester1 = 0
+    let tester2 = 0
+    const iter1 = (items) => {
+      tester1 = items.length
+    }
+    const iter2 = (items) => {
+      tester2 = items.length
+    }
+    todos.subscribe(iter1)
+    todos.subscribe(iter2)
+    todos.add(['1', '2', '3', '4'])
+    assert.equal(tester1, 4)
+    assert.equal(tester2, 4)
+  })
+})
+
+describe('Todo list unsubscribe functionality', () => {
+  it('should subscribe to a function and then unsubscribe from it', () => {
+    const todos = TodosFactory.createList()
+    let tester = 0
+    const iter = (items) => {
+      tester = items.length
+    }
+    const subscription = todos.subscribe(iter)
+    todos.unsubscribe(subscription)
+    todos.add(['1', '2', '3', '4'])
+    assert.equal(tester, 0)
+  })
+
+  it('should subscribe to 2 functions and unsubscribe from 1 of them', () => {
+    const todos = TodosFactory.createList()
+    let tester1 = 0
+    let tester2 = 0
+    const iter1 = (items) => {
+      tester1 = items.length
+    }
+    const iter2 = (items) => {
+      tester2 = items.length
+    }
+    todos.subscribe(iter1)
+    const subscription2 = todos.subscribe(iter2)
+    todos.unsubscribe(subscription2)
+    todos.add(['1', '2', '3', '4'])
+    assert.equal(tester1, 4)
+    assert.equal(tester2, 0)
   })
 })
