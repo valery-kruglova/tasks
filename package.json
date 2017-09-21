@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "gulp",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers js:babel-core/register ./app/scripts/**/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -34,6 +34,7 @@
     "babelify": "^7.3.0",
     "bluebird": "^3.5.0",
     "browser-sync": "^2.18.13",
+    "chai": "^4.1.2",
     "del": "^2.2.2",
     "eslint": "^2.13.1",
     "eslint-config-airbnb": "^8.0.0",
@@ -72,6 +73,7 @@
     "gulp.spritesmith": "^6.5.1",
     "image-size": "^0.5.5",
     "imagemin-pngquant": "^5.0.1",
+    "mocha": "^3.5.3",
     "postcss-flexbugs-fixes": "^2.1.1",
     "require-dir": "^0.3.2",
     "run-sequence": "^1.2.2",
