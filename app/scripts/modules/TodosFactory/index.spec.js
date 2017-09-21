@@ -65,6 +65,12 @@ describe('Todo list removing item(s)', () => {
 })
 
 describe('Todo list subscribe functionality', () => {
+  it('shouldn\'t subscribe to non function argument', () => {
+    const todos = TodosFactory.createList()
+    const anything = 'asdfasdf'
+    const subscription = todos.subscribe(anything)
+    assert.isNull(subscription)
+  })
   it('should subscribe to any function', () => {
     const todos = TodosFactory.createList()
     let tester = 0

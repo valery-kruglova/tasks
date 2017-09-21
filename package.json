@@ -5,11 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "gulp",
-    "test": "mocha --compilers js:babel-core/register ./app/scripts/**/*.spec.js"
+    "test": "nyc mocha --compilers js:babel-core/register ./app/scripts/**/*.spec.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dshm/frontend-starter-kit.git"
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js"
+    ]
   },
   "keywords": [
     "es2015",
@@ -75,6 +80,7 @@
     "image-size": "^0.5.5",
     "imagemin-pngquant": "^5.0.1",
     "mocha": "^3.5.3",
+    "nyc": "^11.2.1",
     "postcss-flexbugs-fixes": "^2.1.1",
     "require-dir": "^0.3.2",
     "run-sequence": "^1.2.2",
