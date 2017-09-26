@@ -4,3 +4,4 @@ app/components
 npm-debug.log
 app/scripts/files.js
 .idea
+/.nyc_output

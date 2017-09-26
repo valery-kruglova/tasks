@@ -15,10 +15,10 @@
   },
   "rules": {
     "no-param-reassign": [2,{ "props": false }],
-    "no-unused-expressions": [2, { allowShortCircuit: true, allowTernary: true }],
+    "no-unused-expressions": [2, { "allowShortCircuit": true, "allowTernary": true }],
     "no-restricted-syntax": ["error",  "WithStatement", "BinaryExpression[operator='in']"],
     "func-names": 0,
-    "no-console": ["error", { allow: ["warn", "error"] }],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
     "arrow-body-style": 0,
     "react/jsx-first-prop-new-line": 0,
     "react/jsx-space-before-closing": [2, "never"],
@@ -37,14 +37,17 @@
     "default-case": 0,
     "eol-last": 0,
     "quotes": 0,
-    "semi": 0,
+    "semi": ["error", "never"],
     "space-infix-ops": 0,
     "no-trailing-spaces": 0,
     "no-multi-spaces": 0,
     "no-alert": 0,
     "no-undef": 1,
     "no-unused-vars": [1, {"vars": "local", "args": "none"}],
-    "no-floating-decimal": 0
+    "no-floating-decimal": 0,
+    "no-confusing-arrow": [0, {"allowParens": true}],
+    "no-nested-ternary": [0],
+    "max-len": "off"
   },
   "globals" : {
     "document": false,
